@@ -1,10 +1,7 @@
-// Developed by @luizsantasuzana
-window.features = window.features || {};
-window.features.questionSpoof = true;
-
-// Simples exemplo: força exibição de alternativas corretas
-setInterval(() => {
-    document.querySelectorAll('[data-test=correct-choice]').forEach(el => {
-        el.style.border = '2px solid #00ff00';
-    });
-}, 1000);
+(() => {
+  const correct = document.querySelector('[data-test="correct-choice"]');
+  if (correct) {
+    correct.style.border = "2px solid #00ff00";
+    correct.style.backgroundColor = "#002200";
+  }
+})();

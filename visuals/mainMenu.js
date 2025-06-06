@@ -1,23 +1,22 @@
-// Developed by @luizsantasuzana
-
-const menu = document.createElement('div');
-menu.style = `
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background: #111;
-    padding: 15px;
-    border-radius: 8px;
-    font-family: sans-serif;
-    color: white;
-    z-index: 9999;
-`;
-menu.innerHTML = `
-    <h3 style="margin-top:0; color:#72ff72;">Khanware Menu</h3>
-    <button onclick="window.location.reload()">🔁 Recarregar</button><br><br>
-    <button onclick="farmMinutes()">🧠 Farmar Minutos</button><br><br>
-    <button onclick="loadScript('./visuals/youtubePlayer.js','YouTube Player')">🎵 Abrir Música</button><br><br>
-    <div style="font-size:12px;opacity:0.7;">Developed by @luizsantasuzana</div>
-`;
-
-document.body.appendChild(menu);
+(() => {
+  const menu = document.createElement("div");
+  menu.style = `
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:#111;
+    padding:15px;
+    color:white;
+    border-radius:10px;
+    z-index:9999;
+    box-shadow:0 0 10px #00ff88;
+  `;
+  menu.innerHTML = `
+    <div style="font-size:18px;margin-bottom:10px;color:#00ff88;">Khanware</div>
+    <button onclick="(${farmMinutes.toString()})()" style="margin-bottom:10px;">🧠 Farmar Minutos</button><br>
+    <button onclick="(${spoofQuestions.toString()})()" style="margin-bottom:10px;">✅ Spoofar Questões</button><br>
+    <button onclick="(${spoofVideo.toString()})()" style="margin-bottom:10px;">📺 Spoofar Vídeo</button><br>
+    <div style="font-size:11px;opacity:0.5;margin-top:10px;text-align:center;">Developed by @luizsantasuzana</div>
+  `;
+  document.body.appendChild(menu);
+})();

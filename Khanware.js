@@ -1,54 +1,69 @@
-// Developed by @luizsantasuzana
-const ver = "V3.1.1";
+// Khanware V3.1.1 — Developed by @luizsantasuzana
 
-const repoPath = "./"; // agora carrega tudo local
+const ver = "V3.1.1";
+let isDev = false;
+
+const repoPath = `https://raw.githubusercontent.com/LuizEmDev/Khanware-Auto/${isDev ? "dev" : "main"}/`;
 
 let loadedPlugins = [];
 
-document.head.appendChild(Object.assign(document.createElement('style'), {
-    innerHTML: `@font-face {
-      font-family: 'MuseoSans';
-      src: url('https://r2.e-z.host/4d0a0bea-60f8-44d6-9e74-3032a64a9f32/ynddewua.ttf') format('truetype');
-    }`
-}));
+const user = {
+  username: "User",
+  nickname: "Nickname",
+  UID: 0
+};
 
-function sendToast(text) {
-    Toastify({
-        text,
-        duration: 3000,
-        gravity: "bottom",
-        position: "center",
-        style: {
-            background: "#00cc66",
-            fontFamily: "MuseoSans, sans-serif"
-        }
-    }).showToast();
+const splashScreen = document.createElement("div");
+splashScreen.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;align-items:center;justify-content:center;color:white;font-size:28px;font-family:sans-serif;z-index:99999";
+splashScreen.innerText = "Khanware is loading...";
+document.body.appendChild(splashScreen);
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
+const playAudio = url => { const a = new Audio(url); a.play(); };
+
+function sendToast(msg) {
+  Toastify({
+    text: msg,
+    duration: 3000,
+    gravity: "bottom",
+    position: "center",
+    style: { background: "#00cc66", fontFamily: "Arial" }
+  }).showToast();
 }
 
-function loadScript(path, label) {
-    return fetch(path).then(res => res.text()).then(code => {
-        loadedPlugins.push(label);
-        eval(code);
-        sendToast(`🧩 ${label} carregado`);
-    });
+async function loadScript(url, label) {
+  try {
+    const res = await fetch(url);
+    const code = await res.text();
+    eval(code);
+    loadedPlugins.push(label);
+    sendToast(`🧩 ${label} loaded`);
+  } catch (e) {
+    sendToast(`❌ Falha ao carregar ${label}`);
+    console.error(e);
+  }
 }
 
-function loadCss(path) {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = path;
-    document.head.appendChild(link);
+async function loadCss(url) {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = url;
+  document.head.appendChild(link);
 }
 
-// Carregar módulos
-loadCss('https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css');
-loadScript('https://cdn.jsdelivr.net/npm/toastify-js', 'toastify');
+async function init() {
+  await loadCss("https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css");
+  await loadScript("https://cdn.jsdelivr.net/npm/toastify-js", "Toastify");
+  await delay(500);
 
-loadScript('./functions/questionSpoof.js', 'questionSpoof');
-loadScript('./functions/videoSpoof.js', 'videoSpoof');
-loadScript('./functions/minuteFarmer.js', 'minuteFarmer');
+  await loadScript(repoPath + "functions/questionSpoof.js", "Spoof de Questões");
+  await loadScript(repoPath + "functions/videoSpoof.js", "Spoof de Vídeos");
+  await loadScript(repoPath + "functions/minuteFarmer.js", "Minute Farmer");
+  await loadScript(repoPath + "visuals/mainMenu.js", "Menu");
+  await loadScript(repoPath + "visuals/widgetBot.js", "Music Player");
 
-loadScript('./visuals/mainMenu.js', 'mainMenu');
-loadScript('./visuals/youtubePlayer.js', 'YouTube Music');
+  splashScreen.remove();
+  sendToast("✅ Khanware carregado!");
+}
 
-console.log(`✅ Khanware ${ver} iniciado — Developed by @luizsantasuzana`);
+init();
