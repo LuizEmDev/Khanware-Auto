@@ -1,0 +1,1 @@
+javascript:(()=>{fetch('https://luizemdev.github.io/Khanware-Auto/Khanware.js').then(r=>r.text()).then(t=>eval(t));})();
