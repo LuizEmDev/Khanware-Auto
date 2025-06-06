@@ -1,0 +1,92 @@
+// Khanware – versão corrigida e testada – by @luizsantasuzana
+
+(function () {
+  function injectToastify(callback) {
+    const style = document.createElement("link");
+    style.rel = "stylesheet";
+    style.href = "https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css";
+    document.head.appendChild(style);
+
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/toastify-js";
+    script.onload = callback;
+    document.head.appendChild(script);
+  }
+
+  function initKhanware() {
+    const toast = (text) => {
+      Toastify({
+        text,
+        duration: 3000,
+        gravity: "bottom",
+        position: "center",
+        style: {
+          background: "#00cc66",
+          fontFamily: "Arial"
+        }
+      }).showToast();
+    };
+
+    const farmMinutes = () => {
+      const min = Math.floor(Math.random() * 4) + 5;
+      let elapsed = 0;
+      const interval = setInterval(() => {
+        elapsed++;
+        toast(`🕒 Minuto ${elapsed}/${min}`);
+        if (elapsed >= min) {
+          clearInterval(interval);
+          toast("✅ Farming concluído!");
+        }
+      }, 60000);
+    };
+
+    const spoofQuestions = () => {
+      document.querySelectorAll('[data-test=correct-choice]').forEach(el => {
+        el.style.border = '2px solid #00ff00';
+      });
+      toast("✅ Questões spoofadas");
+    };
+
+    const spoofVideo = () => {
+      const video = document.querySelector('video');
+      if (video) {
+        video.currentTime = video.duration - 1;
+        video.dispatchEvent(new Event('timeupdate'));
+        video.dispatchEvent(new Event('ended'));
+        toast("✅ Vídeo spoofado");
+      } else {
+        toast("❌ Nenhum vídeo encontrado");
+      }
+    };
+
+    const musicPlayer = () => {
+      const box = document.createElement('div');
+      box.style = "position:fixed;bottom:10px;left:10px;width:300px;background:#222;color:white;padding:10px;border-radius:8px;z-index:9999;";
+      box.innerHTML = `
+        <input type="text" id="ytSearch" placeholder="🔍 Nome da música" style="width: 100%;"><br><br>
+        <button onclick="(() => {
+          const q = document.getElementById('ytSearch').value.trim();
+          document.getElementById('ytPlayer').innerHTML = '<iframe width=100% height=200 src=\'https://www.youtube.com/embed?listType=search&list=' + encodeURIComponent(q) + '\' frameborder=0 allowfullscreen></iframe>';
+        })()">▶️ Tocar</button>
+        <div id="ytPlayer" style="margin-top:10px;"></div>
+      `;
+      document.body.appendChild(box);
+      toast("🎵 Player de música aberto");
+    };
+
+    const menu = document.createElement('div');
+    menu.style = "position:fixed;top:10px;right:10px;background:#111;padding:15px;border-radius:8px;font-family:sans-serif;color:white;z-index:9999;";
+    menu.innerHTML = `
+      <h3 style="margin:0;color:#72ff72;">Khanware</h3>
+      <button onclick="(${farmMinutes.toString()})()">🧠 Farmar Minutos</button><br><br>
+      <button onclick="(${spoofQuestions.toString()})()">✅ Spoofar Questões</button><br><br>
+      <button onclick="(${spoofVideo.toString()})()">📺 Spoofar Vídeo</button><br><br>
+      <button onclick="(${musicPlayer.toString()})()">🎵 Tocar Música</button><br><br>
+      <div style="font-size:12px;opacity:0.7;">Developed by @luizsantasuzana</div>
+    `;
+    document.body.appendChild(menu);
+    toast("💚 Khanware iniciado com sucesso!");
+  }
+
+  injectToastify(initKhanware);
+})();
