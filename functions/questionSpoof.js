@@ -1,7 +1,6 @@
-(() => {
-  const correct = document.querySelector('[data-test="correct-choice"]');
-  if (correct) {
-    correct.style.border = "2px solid #00ff00";
-    correct.style.backgroundColor = "#002200";
-  }
-})();
+javascript
+// questionSpoof.js
+function questionSpoof() {
+// Implementa a lógica de spoof de questões
+console.log("Spoof de questões ativado.");
+}
