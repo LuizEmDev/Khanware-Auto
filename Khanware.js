@@ -1,17 +1,9 @@
-// Khanware V3.1.1 — Developed by @luizsantasuzana
-
 const ver = "V3.1.1";
 let isDev = false;
 
 const repoPath = `https://raw.githubusercontent.com/LuizEmDev/Khanware-Auto/${isDev ? "dev" : "main"}/`;
 
 let loadedPlugins = [];
-
-const user = {
-  username: "User",
-  nickname: "Nickname",
-  UID: 0
-};
 
 const splashScreen = document.createElement("div");
 splashScreen.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;align-items:center;justify-content:center;color:white;font-size:28px;font-family:sans-serif;z-index:99999";
