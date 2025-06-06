@@ -1,32 +1,31 @@
-// Khanware — Versão estável final — by @luizsantasuzana
+// Khanware – versão corrigida e testada – by @luizsantasuzana
 
 (function () {
-  // Carregar Toastify
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = 'https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css';
-  document.head.appendChild(link);
+  function injectToastify(callback) {
+    const style = document.createElement("link");
+    style.rel = "stylesheet";
+    style.href = "https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css";
+    document.head.appendChild(style);
 
-  const script = document.createElement('script');
-  script.src = 'https://cdn.jsdelivr.net/npm/toastify-js';
-  script.onload = main;
-  document.head.appendChild(script);
-
-  function toast(msg) {
-    Toastify({
-      text: msg,
-      duration: 3000,
-      gravity: "bottom",
-      position: "center",
-      style: {
-        background: "#00cc66",
-        fontFamily: "Arial"
-      }
-    }).showToast();
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/toastify-js";
+    script.onload = callback;
+    document.head.appendChild(script);
   }
 
-  function main() {
-    toast("✅ Khanware carregado!");
+  function initKhanware() {
+    const toast = (text) => {
+      Toastify({
+        text,
+        duration: 3000,
+        gravity: "bottom",
+        position: "center",
+        style: {
+          background: "#00cc66",
+          fontFamily: "Arial"
+        }
+      }).showToast();
+    };
 
     const farmMinutes = () => {
       const min = Math.floor(Math.random() * 4) + 5;
@@ -82,4 +81,12 @@
       <button onclick="(${farmMinutes.toString()})()">🧠 Farmar Minutos</button><br><br>
       <button onclick="(${spoofQuestions.toString()})()">✅ Spoofar Questões</button><br><br>
       <button onclick="(${spoofVideo.toString()})()">📺 Spoofar Vídeo</button><br><br>
-      <button onclick="(${musicPlay
+      <button onclick="(${musicPlayer.toString()})()">🎵 Tocar Música</button><br><br>
+      <div style="font-size:12px;opacity:0.7;">Developed by @luizsantasuzana</div>
+    `;
+    document.body.appendChild(menu);
+    toast("💚 Khanware iniciado com sucesso!");
+  }
+
+  injectToastify(initKhanware);
+})();
